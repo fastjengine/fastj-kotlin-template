@@ -43,7 +43,7 @@ repositories.maven {
 repositories.mavenCentral()
 
 /* The dependency for FastJ, the game engine this template depends on. */
-dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.5.0-SNAPSHOT")
+dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.5.0-SNAPSHOT-2")
 
 /* To make Kotlin compile and run properly with Gradle, this adds your Kotlin code to the Java
  * source sets. */
