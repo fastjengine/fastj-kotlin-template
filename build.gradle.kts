@@ -36,14 +36,14 @@ application.mainClass.set("tech.fastj.template.GameKt")
 
 /* When you add a dependency on another project (like FastJ), you need to add specify where the
  * dependencies are coming from!
- * FastJ is hosted on Maven Central, so we"ll add it here. */
+ * FastJ is hosted on Maven Central and Jitpack.io, so we"ll add the jitpack.io dependency here. */
 repositories.maven {
-    setUrl("https://oss.sonatype.org/content/repositories/snapshots/")
+    setUrl("https://jitpack.io/")
 }
 repositories.mavenCentral()
 
 /* The dependency for FastJ, the game engine this template depends on. */
-dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.5.0-SNAPSHOT-2")
+dependencies.implementation("com.github.fastjengine:FastJ:1.5.0")
 
 /* To make Kotlin compile and run properly with Gradle, this adds your Kotlin code to the Java
  * source sets. */
