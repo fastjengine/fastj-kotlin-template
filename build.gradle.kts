@@ -11,23 +11,23 @@ plugins {
      * this, too. */
     application
     /* To create distributable files for your game, we use this runtime plugin. */
-    id("org.beryx.runtime") version "1.12.5"
+    id("org.beryx.runtime") version "1.12.7"
 }
 
-/* Your project"s group name goes here.
+/* Your project's group name goes here.
  * This should be a domain name you own.
- * If you don"t own a domain, don"t worry! You can always set this to "io.github.yourgithubusername". */
+ * If you don't own a domain, don"t worry! You can always set this to "io.github.yourgithubusername". */
 group = "io.github.yourgithubusername"
 
-/* Your project"s version.
+/* Your project's version.
  * When you want to distribute a new version of your project, always make sure to update the
  * project version. */
 version = "0.0.1"
 
-/* Your project"s description.
+/* Your project's description.
  * Give a one or two sentence description of your project -- if you publish it somewhere, you"ll be
  * able to use it. */
-description = "A Java Template for FastJ."
+description = "A Kotlin Template for FastJ."
 
 /* Here, we specify where the main entrypoint of the project.
  * Feel free to change this as needed. */
@@ -43,7 +43,9 @@ repositories.maven {
 repositories.mavenCentral()
 
 /* The dependency for FastJ, the game engine this template depends on. */
-dependencies.implementation("com.github.fastjengine:FastJ:1.5.0")
+dependencies.implementation("com.github.fastjengine:FastJ:1.6.0-SNAPSHOT-3")
+/* We'll stick with the simplest logging option for now -- you can change it however you need. */
+dependencies.implementation("org.slf4j:slf4j-simple:2.0.0-alpha3")
 
 /* To make Kotlin compile and run properly with Gradle, this adds your Kotlin code to the Java
  * source sets. */
