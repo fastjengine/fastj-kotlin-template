@@ -6,7 +6,7 @@
 
 plugins {
     /* To begin with, Gradle needs the "kotlin" plugin so that it knows this is a Kotlin project. */
-    kotlin("jvm") version "1.5.20"
+    kotlin("jvm") version "1.6.21"
     /* This template is for an application -- we"ll need this plugin to make sure Gradle knows
      * this, too. */
     application
@@ -43,9 +43,9 @@ repositories.maven {
 repositories.mavenCentral()
 
 /* The dependency for FastJ, the game engine this template depends on. */
-dependencies.implementation("com.github.fastjengine:FastJ:1.6.0-SNAPSHOT-3")
+dependencies.implementation("com.github.fastjengine:FastJ:1.6.0")
 /* We'll stick with the simplest logging option for now -- you can change it however you need. */
-dependencies.implementation("org.slf4j:slf4j-simple:2.0.0-alpha3")
+dependencies.implementation("org.slf4j:slf4j-simple:2.0.0-alpha5")
 
 /* To make Kotlin compile and run properly with Gradle, this adds your Kotlin code to the Java
  * source sets. */
