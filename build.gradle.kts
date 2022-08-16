@@ -6,13 +6,17 @@
 
 plugins {
     /* To begin with, Gradle needs the "kotlin" plugin so that it knows this is a Kotlin project. */
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.10"
     /* This template is for an application -- we"ll need this plugin to make sure Gradle knows
      * this, too. */
     application
-    /* To create distributable files for your game, we use this runtime plugin. */
-    id("org.beryx.runtime") version "1.12.7"
+    /* To create distributable files for your game, we use this jlink plugin. */
+    id("org.beryx.jlink") version "2.25.0"
 }
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+val compileJava: JavaCompile by tasks
+compileJava.destinationDirectory.set(compileKotlin.destinationDirectory.get())
 
 /* Your project's group name goes here.
  * This should be a domain name you own.
@@ -31,6 +35,7 @@ description = "A Kotlin Template for FastJ."
 
 /* Here, we specify where the main entrypoint of the project.
  * Feel free to change this as needed. */
+application.mainModule.set("fastj.templategame")
 application.mainClass.set("tech.fastj.template.GameKt")
 
 
@@ -43,9 +48,9 @@ repositories.maven {
 repositories.mavenCentral()
 
 /* The dependency for FastJ, the game engine this template depends on. */
-dependencies.implementation("com.github.fastjengine:FastJ:1.6.0")
+dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-1")
 /* We'll stick with the simplest logging option for now -- you can change it however you need. */
-dependencies.implementation("org.slf4j:slf4j-simple:2.0.0-alpha5")
+dependencies.implementation("org.slf4j:slf4j-simple:2.0.0-alpha7")
 
 /* To make Kotlin compile and run properly with Gradle, this adds your Kotlin code to the Java
  * source sets. */
@@ -56,7 +61,7 @@ sourceSets.main {
 
 /* The Runtime plugin is used to configure the executables and other distributions for your
  * project. */
-runtime {
+jlink {
 
     options.addAll(
         "--strip-debug",
@@ -66,47 +71,49 @@ runtime {
     )
 
     launcher {
+        name = project.name
         noConsole = true
     }
 
     jpackage {
+
         /* Use this to define the path of the icons for your project. */
         val iconPath = "project-resources/fastj_icon"
         val currentOs = org.gradle.internal.os.OperatingSystem.current()
 
-
         when {
-            currentOs.isWindows -> {
-                installerType = "msi"
-                imageOptions = listOf("--icon", "${iconPath}.ico")
-                installerOptions = listOf(
+            currentOs.isWindows -> imageOptions = listOf("--icon", "${iconPath}.ico")
+            currentOs.isLinux -> imageOptions = listOf("--icon", "${iconPath}.png")
+            currentOs.isMacOsX -> imageOptions = listOf("--icon", "${iconPath}.icns")
+        }
+
+        /* Comment the line below to create an installer for your application */
+        skipInstaller = true
+
+        if (!skipInstaller) {
+            installerOptions.addAll(
+                listOf(
                     "--description", project.description as String,
                     "--vendor", project.group as String,
-                    "--app-version", project.version as String,
-                    "--win-per-user-install",
-                    "--win-dir-chooser",
-                    "--win-shortcut",
+                    "--app-version", project.version as String
                 )
-            }
-            currentOs.isLinux -> {
-                installerType = "deb"
-                imageOptions = listOf("--icon", "${iconPath}.png")
-                installerOptions = listOf(
-                    "--description", project.description as String,
-                    "--vendor", project.group as String,
-                    "--app-version", project.version as String,
-                    "--linux-shortcut",
-                )
-            }
-            currentOs.isMacOsX -> {
-                installerType = "pkg"
-                imageOptions = listOf("--icon", "${iconPath}.icns")
-                installerOptions = listOf(
-                    "--description", project.description as String,
-                    "--vendor", project.group as String,
-                    "--app-version", project.version as String,
-                    "--mac-package-name", project.name
-                )
+            )
+
+            when {
+                currentOs.isWindows -> {
+                    installerType = "msi"
+                    installerOptions.addAll(listOf("--win-per-user-install", "--win-dir-chooser", "--win-shortcut"))
+                }
+
+                currentOs.isLinux -> {
+                    installerType = "deb"
+                    installerOptions.addAll(listOf("--linux-shortcut"))
+                }
+
+                currentOs.isMacOsX -> {
+                    installerType = "pkg"
+                    installerOptions.addAll(listOf("--mac-package-name", project.name))
+                }
             }
         }
     }

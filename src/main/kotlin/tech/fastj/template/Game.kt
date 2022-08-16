@@ -16,13 +16,13 @@ class Game : SimpleManager() {
         /* Some crispy anti-aliasing for the road. */
         canvas.modifyRenderSettings(RenderSettings.Antialiasing.Enable)
 
-        /* A very simple Text2D object, welcoming you to FastJ! */
-        val helloFastJText = Text2D.fromText("Hello, FastJ 1.6.0!")
-        helloFastJText.translate(canvas.canvasCenter)
-        drawableManager.addGameObject(helloFastJText)
-    }
+        val helloFastJ: Text2D = Text2D.fromText("Hello, FastJ 1.7.0-SNAPSHOT-1!")
 
-    override fun update(canvas: FastJCanvas?) {
+        /* Translate our hello text to the center of the screen */
+        helloFastJ.translation = canvas.canvasCenter.subtract((helloFastJ.width() / 2f), (helloFastJ.height() / 2f))
+
+        /* Render hello fastj text */
+        drawableManager().addGameObject(helloFastJ)
     }
 }
 
